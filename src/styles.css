@@ -1,0 +1,20 @@
+:root {
+    --primary-red : rgb(243, 37, 37);
+    --primary-green : rgb(35, 134, 54);
+    --primary-blue: rgb(146, 146, 250);
+    --primary-yellow : rgb(245, 245, 45);
+    --primary-black: rgb(16, 16, 16);
+
+        
+
+    --semi-dark: rgb(48 54 61);
+
+    --primary-grey: #8b949e;
+}
+body {
+    background-color:black;
+    color: white;
+}
+.text-semi-grey {
+    color: var(--primary-grey)
+}

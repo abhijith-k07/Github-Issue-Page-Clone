@@ -1,0 +1,43 @@
+.conv-activity {
+    padding: 15px 0px;
+    position: relative;
+    display: flex;
+    align-items: flex-start
+}
+.conv-activity::before {
+    box-sizing: border-box;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: 20px;
+    z-index: 10;
+    background-color: var(--semi-dark);
+}
+.conv-icon {
+    margin-left: 10px;
+    margin-right: 10px;
+    z-index: 10;
+}
+.activity-icon {
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgb(108, 106, 109);
+    z-index: 11;
+    margin-left: -5px;
+    border: 1px solid rgb(0, 0, 0);
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+.conv-description {
+    color: gray;
+}
+.conv-description span:first-child {
+    color: white;
+    font-weight: 500;
+}

@@ -1,0 +1,62 @@
+.issue-card {
+    box-sizing: border-box;
+    background-color: black;
+    padding: 12px;
+    border: 1px solid var(--semi-dark);
+    border-top: none;
+    display: flex;
+    align-items: flex-start;
+}
+
+.issue-card:hover {
+    background-color:rgb(14, 11, 11);
+}
+
+.issue-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    row-gap: 10px;
+}
+
+.issue-box {
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 7px;
+}
+
+.list-indicator {
+    min-width: 20px;
+    min-height: 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 2px solid var(--primary-green);
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-indicator div {
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background-color: var(--primary-green);
+}
+
+.issue-title {
+    cursor: pointer;
+    line-height: 18px;
+    margin-right: 20px;
+}
+
+.issue-title:hover {
+    color: var(--primary-blue)
+}
+
+.issue-info {
+    color: white;
+    font-size: 12px;
+}

@@ -1,0 +1,35 @@
+.issue-list-header,
+.issue-list-summary {
+    background-color: var(--primary-black);
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.issue-list-header {
+    padding: 16px 12px;
+    border: 1px solid var(--semi-dark);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.issue-list-summary>div {
+    margin-right: 10px;
+}
+
+.issue-filters {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.issue-filters div {
+    margin-right: 10px;
+}
+
+.issue-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

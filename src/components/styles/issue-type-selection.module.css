@@ -1,0 +1,30 @@
+.box-center {
+    margin: 20px 0px;
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+.issue-type-selection {
+    box-sizing: border-box;
+    width: 100%;
+    border-bottom: 1px solid var(--semi-dark);
+    padding: 10px 15px;
+    display: flex;
+    align-items:flex-start;
+    justify-content:space-between
+}
+.issue-type {
+    width: auto;
+    flex-grow: 1;
+}
+.issue-type div {
+    font-size: 14px;
+    color: grey;
+}
+.issue-type div:first-child {
+    font-size: 18px;
+    color: white;
+}
+.issue-type div:last-child {
+    margin-top: 10px;;
+}

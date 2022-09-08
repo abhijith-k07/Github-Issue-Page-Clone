@@ -1,0 +1,9 @@
+.container {
+    position: relative;
+    margin-top: 20px;
+}
+.wrapper {
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
+}

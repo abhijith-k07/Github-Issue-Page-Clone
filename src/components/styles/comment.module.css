@@ -1,0 +1,32 @@
+.comment-wrapper {
+    position: relative;
+}
+.comment:before {
+    content: '';
+    width: 2px;
+    background-color:rgb(69, 64, 64);
+    position:absolute;
+    left:20px;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+.comment {
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+.comment-header {
+    padding: 10px;
+    border: 1px solid var(--semi-dark);
+    background-color: rgb(14, 12, 12);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 20px;
+    display: flex;
+}
+.comment-box {
+    border: 1px solid var(--semi-dark);
+    padding: 10px 12px;
+    background-color: black
+}

@@ -1,0 +1,12 @@
+.tag {
+    padding: 1px 7px;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 18px;
+    border-radius: 70px;
+    white-space: nowrap;
+    border: 0.5px solid rgb(18, 4, 211);
+    margin-right: 10px;
+    column-gap: 10px;
+    color: white
+}

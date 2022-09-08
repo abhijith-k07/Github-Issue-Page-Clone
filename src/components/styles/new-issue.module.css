@@ -1,0 +1,21 @@
+.container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.instructions {
+    margin-top: 10px;
+}
+.wrapper {
+    padding: 10px 15px;
+}
+.header {
+    margin-top: 20px;
+    font-size: 24px;
+    border-bottom: 1px solid var(--semi-dark);
+    padding-bottom: 15px;
+    margin-bottom: 20px;    
+}
+.margin-left-auto {
+    margin-left: auto;
+}

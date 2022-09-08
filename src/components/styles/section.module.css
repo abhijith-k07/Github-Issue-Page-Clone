@@ -1,0 +1,12 @@
+.section {
+    width:100%;
+    padding: 10px 0px;
+    border: 1px solid var(--semi-dark);
+    border-right: none;
+    border-left: none;
+    color: var(--primary-grey);
+}
+.heading {
+    font-weight: 500;
+    font-size: 13px;
+}
