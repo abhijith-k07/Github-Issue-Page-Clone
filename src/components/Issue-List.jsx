@@ -3,13 +3,18 @@ import { useState, useEffect } from "react";
 import IssueCard from "./Issue-Card";
 import IssueListHeader from "./Issue-List-Header";
 import styles from './styles/issue-list.module.css';
+import IssueDb from "../utilities/functions/Db/IssueDb";
+import { getRequest } from "../utilities/functions/Http-client";
+import IssueModel from "../classes/IssueModel";
 
 function IssueList() {
     const [issues, setIssues] = useState([]);
 
     useEffect(() => {
-        const issues = localStorage.getItem('issue');
-        setIssues(JSON.parse(issues));
+        getRequest('issue/allissues').then((response) => {
+            const formattedIssues = response.data.map((issue) => new IssueModel({...issue}));
+            setIssues(formattedIssues);
+        })
     }, [])
 
 

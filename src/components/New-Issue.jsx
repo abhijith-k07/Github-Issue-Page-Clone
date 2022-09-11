@@ -4,20 +4,24 @@ import Input from './Input';
 import styles from './styles/new-issue.module.css';
 import TextBox from './Text-Box';
 import Button from './Button';
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams, createSearchParams } from 'react-router-dom'
 import Issue from '../classes/Issue';
-import IssueConversation from '../classes/Issue-Conversation';
+import { postRequest } from '../utilities/functions/Http-client';
+
 
 function NewIssue() {
     const [searchParams] = useSearchParams();
     const [issue, setIssue] = useState({
         title: '',
-        description: '',
-        errorMessage: '',
-        codeSnippet: '',
+        description: ''
     });
-    const issueTypeId = searchParams.get('issueId');
     const [issueTypeDetails, setIssueTypeDetails] = useState({});
+    const [errorMessage, setErrorMessage] = useState("");
+
+
+
+    const issueTypeId = searchParams.get('issueTypeId');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const typeDetails = getIssueTypedetails(issueTypeId);
@@ -34,6 +38,7 @@ function NewIssue() {
 
 
     const handleInput = (e) => {
+        setErrorMessage("");
         setIssue({ ...issue, [e.target.name]: e.target.value, });
     }
 
@@ -46,16 +51,16 @@ function NewIssue() {
             }
         }
         if (isFormValid) {
-            let db = window.localStorage.getItem('issue');
-            const convDb = JSON.parse(window.localStorage.getItem('issue-conversations'));
-            if (!db) db = [];
-            else db = JSON.parse(db);
             const newIssue = new Issue({ ...issue, issueTypeId });
-            convDb.push(new IssueConversation({issueId :newIssue.id}));
-            console.log(newIssue);
-            db.push(newIssue);
-            localStorage.setItem('issue', JSON.stringify(db));
-            localStorage.setItem('issue-conversations', JSON.stringify(convDb));
+            postRequest('issue/newissue', newIssue).then((createdIssue) => {
+
+                navigate({
+                        pathname: '/issue-conversation',
+                        search: `?${createSearchParams({ issueId: createdIssue.data.issueId })}`
+                    });
+            });
+        } else {
+            setErrorMessage("All fields are required");
         }
     }
 
@@ -76,21 +81,7 @@ function NewIssue() {
                         onChange={handleInput}
                         value={issue.description}
                     />
-                    <TextBox label="Error Message"
-                        subLabel="Please provide any error message you are receiving and a stack trace."
-                        height={8}
-                        isMandatory={true}
-                        name="errorMessage"
-                        onChange={handleInput}
-                        value={issue.errorMessage}
-                    />
-                    <TextBox label="Relevant code snippet"
-                        height={9}
-                        isMandatory={true}
-                        name="codeSnippet"
-                        onChange={handleInput}
-                        value={issue.codeSnippet}
-                    />
+                    {errorMessage && <div className="text-danger mt-10">{errorMessage}</div>}
                     <Button label="Submit new Issue" panelClasses={styles['margin-left-auto']} onClick={submitForm} />
                 </div>
             </Box>

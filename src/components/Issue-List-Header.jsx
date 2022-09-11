@@ -1,9 +1,9 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles/issue-list-header.module.css';
 import issueCardStyles from './styles/issue-card.module.css';
 
-function IssueListHeader({allIssues}) {
-    const [statCounts, setStatCounts] = useState( {open: 0,  closed: 0});
+function IssueListHeader({ allIssues }) {
+    const [statCounts, setStatCounts] = useState({ open: 0, closed: 0 });
 
     useEffect(() => {
         const stats = {
@@ -15,7 +15,7 @@ function IssueListHeader({allIssues}) {
             else stats['closed']++;
             setStatCounts(stats);
         })
-    })
+    }, [])
 
 
     return (
@@ -30,12 +30,12 @@ function IssueListHeader({allIssues}) {
                     </div>
                     <div className='text-semi-grey'>{statCounts.closed} Closed </div>
                 </div>
-                <div className={styles['issue-filters']}>
+                {/* <div className={styles['issue-filters']}>
                     <div>Author</div>
                     <div>Label</div>
                     <div>Assignee</div>
                     <div>Sort</div>
-                </div>
+                </div> */}
 
             </div>
         </>

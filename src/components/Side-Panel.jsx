@@ -6,8 +6,8 @@ import styles from "./styles/side-panel.module.css";
 function SidePanel({ Assigneess, labels }) {
 
     useEffect(() => {
-        console.log(labels);
-    })
+        
+    }, [])
 
     return (
         <div>

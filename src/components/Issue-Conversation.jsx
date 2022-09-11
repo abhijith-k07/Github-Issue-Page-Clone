@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styles from './styles/issue-conversation.module.css';
 import ConversationHeader from "./Conersation-Header";
-import Comment from "./Comment";
 import ConversationActivity from "./Conversation-Activity";
-// import ActivityModel from "../classes/ActiviyModel";
 import TextBox from "./Text-Box";
 import Button from './Button';
 import { useSearchParams } from 'react-router-dom';
-import DB from "../utilities/functions/Db/db-adapter";
 import SidePanel from "./Side-Panel";
 import ActivityModel from "../classes/ActiviyModel";
+import CommentModel from "../classes/Comment";
+import Comment from './Comment';
+import { getRequest, postRequest } from "../utilities/functions/Http-client";
+import IssueModel from "../classes/IssueModel";
 
 function IssueConversation() {
-    const [conversation, setConversation] = useState(null);
     const [timeLine, setTimeLine] = useState([]);
     const [issue, setIssue] = useState(null);
     const [currentComment, setCurrentComment] = useState('');
@@ -21,13 +21,8 @@ function IssueConversation() {
 
     const issueId = searchParams.get('issueId');
 
-    const issueDb = new DB('issue');
-    const issueConvDb = new DB('issue-conversations');
-
-    const sortCommentsAndActivities = (conversation) => {
-        const comments = [...conversation.comments];
+    const sortCommentsAndActivities = (comments, activities) => {
         comments.sort(comparisonFunc);
-        const activities = [...conversation.activities];
         activities.sort(comparisonFunc);
         const timeLine = new Array(activities.length + comments.length);
         let [i, j, k] = [0, 0, 0];
@@ -41,25 +36,26 @@ function IssueConversation() {
         setTimeLine(timeLine);
     }
 
-    const getConversation = (issueId) => {
-        let convFromDb = localStorage.getItem('issue-conversations');
-        convFromDb = JSON.parse(convFromDb);
-        const targetConv = convFromDb.filter(conv => conv.issueId == issueId);
-        return targetConv[0];
+    const comparisonFunc = (a, b) => {
+        if (new Date(a.at) < new Date(b.at)) return -1;
+        else if (new Date(a.at) > new Date(b.at)) return 1;
+        else return 0;
     }
 
     const getIssue = (issueId) => {
-        let issuesFromDb = JSON.parse(localStorage.getItem('issue'));
-        const reqIssue = issuesFromDb.filter(issue => issue.id === issueId);
-        setIssue(reqIssue[0]);
+        getRequest('issue/issuedetails/' + issueId).then((response) => {
+            setIssue(new IssueModel({...response.data[0]}));
+            console.log(issue);
+        });
     }
 
     useEffect(() => {
-        let data = getConversation(issueId);
-        console.log(data);
-        sortCommentsAndActivities(data);
         getIssue(issueId);
-        setConversation(data);
+        Promise.all([getRequest('activity/issueactivity/?issueId=' + issueId), getRequest('comments/issuecomments/?issueId=' + issueId)]).then((response) => {
+            const formattedActicities = response[0].data.map((activity) => new ActivityModel(activity.activityBy, activity.createdAt, activity.activity));
+            const formattedComments = response[1].data.map((comment) => new CommentModel(comment.commentedBy, comment.createdAt, comment.comment));
+            sortCommentsAndActivities(formattedComments, formattedActicities);
+        });
     }, []);
 
 
@@ -68,55 +64,42 @@ function IssueConversation() {
     }
 
     const addComment = () => {
-        const newComment = {
-            type: "comment",
-            commentedBy: "Abhijith",
-            comment: currentComment,
-            at: new Date().toUTCString()
-        };
-
-        const newConv = {...conversation, comments: [...conversation.comments, newComment]};
-        setCurrentComment('');
-        setConversation(newConv);
-        sortCommentsAndActivities(newConv);
-        const convFromDb = JSON.parse(localStorage.getItem('issue-conversations'));
-        for(let conv of convFromDb) {
-            if (conv.issueId === newConv.issueId) {
-                conv.comments = newConv.comments;
-                break;
-            }
+        const payload = {
+            issueId,
+            comment: currentComment
         }
-        localStorage.setItem('issue-conversations', JSON.stringify(convFromDb));
+        const newComment = new CommentModel('Abhijith',new Date() , currentComment);
+        postRequest('comments/newcomment', payload).then(() => {
+            setTimeLine([...timeLine, newComment]);
+            setCurrentComment('');
+        })
     };
 
-    const comparisonFunc = (a, b) => {
-        if (new Date(a.at) < new Date(b.at)) return -1;
-        else if (new Date(a.at) > new Date(b.at)) return 1;
-        else return 0;
-    }
-
     const closeIssue = () => {
-        const issueFromDb = JSON.parse(localStorage.getItem('issue'));
-        for(let dbIssue of issueFromDb) {
-            if(dbIssue.id === issue.id) dbIssue.status = 'closed';
-            setIssue(dbIssue);
-            localStorage.setItem('issue', JSON.stringify(issueFromDb));
-            break;
+        const payload = {
+            activity: "Closed this",
+            issueId
         }
-        const issueConvFromDb = JSON.parse(localStorage.getItem('issue-conversations'));
-        for(const conv of issueConvFromDb) {
-            if (conv.issueId === conversation.issueId) {
-                conv.activities.push(new ActivityModel('Abhijith', new Date().toISOString(), 'Closed this'));
-                console.log(conv);
-                setConversation(conv);
-                setTimeLine(conv);
-                localStorage.setItem('issue-conversations', JSON.stringify(issueConvFromDb));
-                break;
-            }
-        }
+        postRequest('activity/newactivity', payload).then(() => {
+            const closeActivity = new ActivityModel('Abhijith', new Date().toISOString(), 'Closed this');
+            setIssue({ ...issue, status: 'closed' });
+            setTimeLine([...timeLine, closeActivity]);
+        });
     }
 
-    return (
+    const reOpenIssue = () => {
+        const payload = {
+            activity: "Reopened this",
+            issueId
+        }
+        postRequest('activity/newactivity', payload).then(() => {
+            const reopenActivity = new ActivityModel('Abhijith', new Date().toISOString(), 'Reopened this');
+            setIssue({ ...issue, status: 'open' });
+            setTimeLine([...timeLine, reopenActivity]);
+        });
+    }
+
+    return (    
         <>
             <div className={styles['main-wrapper']}>
                 <div className={styles['conv-wrapper']}>
@@ -143,12 +126,12 @@ function IssueConversation() {
                             })}
                         </div>
                         <div>
-                            { issue?.status === 'open' && <TextBox onChange={handleComment} label="comment" value={currentComment} />}
+                            {issue?.status === 'open' && <TextBox onChange={handleComment} label="comment" value={currentComment} />}
                         </div>
                         <div>
-                            {issue?.status === 'open'&& <Button label="Close issue" onClick={closeIssue} /> }
-                            {issue?.status === 'open' && <Button label="comment" onClick={addComment} />
-}
+                            {issue?.status === 'open' && <Button label="Close issue" onClick={closeIssue} />}
+                            {issue?.status === 'open' && <Button label="comment" onClick={addComment} />}
+                            {issue?.status === 'closed' && <Button label="Reopen" onClick={reOpenIssue} />}
                         </div>
                     </div>
                 </div>

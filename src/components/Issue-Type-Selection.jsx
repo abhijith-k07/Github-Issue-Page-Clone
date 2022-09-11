@@ -14,10 +14,10 @@ function IssueTypeSelection() {
         setIssueTypes(JSON.parse(issueTypesFromDb));
     }, []);
 
-    const goToNewIssue = (issueId) => {
+    const goToNewIssue = (issueTypeId) => {
         navigate({
             pathname: '/new-issue',
-            search: `?${createSearchParams({ issueId })}`,
+            search: `?${createSearchParams({ issueTypeId })}`,
         });
     }
 
