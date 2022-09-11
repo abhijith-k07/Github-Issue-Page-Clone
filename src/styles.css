@@ -15,12 +15,23 @@ body {
     background-color:black;
     color: white;
 }
+
+/* text stylings */
+
 .text-semi-grey {
     color: var(--primary-grey)
 }
 .text-danger {
     color: var(--primary-red);
 }
+
+/* predefined margins */
+
 .mt-10 {
     margin-top: 10px;
+}
+
+/* Utility stylings */
+.pointer {
+    cursor: pointer
 }

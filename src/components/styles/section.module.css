@@ -6,7 +6,15 @@
     border-left: none;
     color: var(--primary-grey);
 }
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content:space-between
+}
 .heading {
     font-weight: 500;
     font-size: 13px;
+}
+.heading:hover {
+    color: rgb(90, 90, 204)
 }

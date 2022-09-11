@@ -2,3 +2,8 @@
     margin-top: 5px;
     font-size: 11px
 }
+.labels {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 5px;
+}

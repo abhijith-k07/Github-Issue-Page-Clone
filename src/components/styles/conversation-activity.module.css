@@ -21,19 +21,6 @@
     margin-right: 10px;
     z-index: 10;
 }
-.activity-icon {
-    box-sizing: border-box;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: rgb(108, 106, 109);
-    z-index: 11;
-    margin-left: -5px;
-    border: 1px solid rgb(0, 0, 0);
-    display:flex;
-    align-items:center;
-    justify-content: center;
-}
 .conv-description {
     color: gray;
 }

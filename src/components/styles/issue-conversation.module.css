@@ -16,3 +16,13 @@
     width: 25%;
     margin-top: 99px;
 }
+.bottom-btn-container {
+    width: fit-content;
+    margin-left : auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.bottom-btn-container > * {
+    margin-left : 10px
+}

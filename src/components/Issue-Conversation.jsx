@@ -45,7 +45,6 @@ function IssueConversation() {
     const getIssue = (issueId) => {
         getRequest('issue/issuedetails/' + issueId).then((response) => {
             setIssue(new IssueModel({...response.data[0]}));
-            console.log(issue);
         });
     }
 
@@ -77,11 +76,11 @@ function IssueConversation() {
 
     const closeIssue = () => {
         const payload = {
-            activity: "Closed this",
+            activity: "closed",
             issueId
         }
         postRequest('activity/newactivity', payload).then(() => {
-            const closeActivity = new ActivityModel('Abhijith', new Date().toISOString(), 'Closed this');
+            const closeActivity = new ActivityModel('Abhijith', new Date().toISOString(), 'closed');
             setIssue({ ...issue, status: 'closed' });
             setTimeLine([...timeLine, closeActivity]);
         });
@@ -89,11 +88,11 @@ function IssueConversation() {
 
     const reOpenIssue = () => {
         const payload = {
-            activity: "Reopened this",
+            activity: "reopened",
             issueId
         }
         postRequest('activity/newactivity', payload).then(() => {
-            const reopenActivity = new ActivityModel('Abhijith', new Date().toISOString(), 'Reopened this');
+            const reopenActivity = new ActivityModel('Abhijith', new Date().toISOString(), 'reopened');
             setIssue({ ...issue, status: 'open' });
             setTimeLine([...timeLine, reopenActivity]);
         });
@@ -128,7 +127,7 @@ function IssueConversation() {
                         <div>
                             {issue?.status === 'open' && <TextBox onChange={handleComment} label="comment" value={currentComment} />}
                         </div>
-                        <div>
+                        <div className={styles['bottom-btn-container']}>
                             {issue?.status === 'open' && <Button label="Close issue" onClick={closeIssue} />}
                             {issue?.status === 'open' && <Button label="comment" onClick={addComment} />}
                             {issue?.status === 'closed' && <Button label="Reopen" onClick={reOpenIssue} />}

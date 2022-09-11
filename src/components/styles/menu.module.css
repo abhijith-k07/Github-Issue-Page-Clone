@@ -1,0 +1,22 @@
+.menu {
+    position: relative;
+}
+
+.menu-view {
+    z-index: 1000;
+    position: absolute;
+    border-radius: 5px;
+    padding: 10px;
+    background: rgb(34 33 33);
+    min-width: 300px;
+    max-height: 60vh;
+    overflow-y: hidden;
+    right: 0px;
+    top: 20px;
+}
+.menu-heading {
+    font-size: 13px;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    font-weight: bold;
+}
