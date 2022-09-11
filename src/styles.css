@@ -18,3 +18,9 @@ body {
 .text-semi-grey {
     color: var(--primary-grey)
 }
+.text-danger {
+    color: var(--primary-red);
+}
+.mt-10 {
+    margin-top: 10px;
+}

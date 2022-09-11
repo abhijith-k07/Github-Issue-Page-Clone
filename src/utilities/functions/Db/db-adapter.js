@@ -2,21 +2,14 @@ class DB {
     constructor(dbName) {
         this.dbName = dbName;
     }
-
-    getData() {
-        const data = JSON.parse(localStorage.getItem(this.dbName));
-        return data;
+    
+    setValue(value) {
+        localStorage.setItem(this.dbName, JSON.stringify(value));
     }
 
-    postData(newItem) {
-        const items = JSON.parse(localStorage.getItem(this.dbName));
-        items.push(newItem);
-        localStorage.setItem(JSON.stringify(items));
-    }
-
-    putData(property, newData) {
-        const items = JSON.parse(localStorage.getItem(this.dbName));
-        
+    getValue() {
+        const allValues = JSON.parse(localStorage.getItem(this.dbName));
+        return allValues;
     }
 }
 
