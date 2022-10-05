@@ -1,0 +1,28 @@
+.label-row {
+    padding: 5px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column; 
+}
+.label-row:hover {
+    background-color: rgb(52, 50, 50);
+}
+
+.label-title {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+.label-color-indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.label-desc {
+    margin-top: 5px;
+    font-size: 12px;
+    text-transform: capitalize;
+}

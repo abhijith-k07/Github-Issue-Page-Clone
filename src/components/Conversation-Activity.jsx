@@ -1,8 +1,30 @@
 import React from "react";
-import ActivityModel from "../classes/ActiviyModel";
 import { timeAgo } from "../utilities/functions/timeAgo";
-import Icon from "./Icon";
+import ActivityIcon from "./Activity-Icon";
 import styles from './styles/conversation-activity.module.css';
+
+const activityMap = {
+    open: {
+        action: 'opened',
+        actionOndescription: 'this issue',
+    },
+    close : {
+        action:'closed',
+        actionOndescription: 'this issue'
+    },
+    reopen: {
+        action: 'reopened',
+        actionOndescription: 'this issue'
+    },
+    add: {
+        action: 'added',
+        actionOndescription: 'label'
+    },
+}
+
+const constructActionResult = (activity) => {
+
+}
 
 function ConversationActivity({ activityBy, activityName, activityAt }) {
 
@@ -10,13 +32,11 @@ function ConversationActivity({ activityBy, activityName, activityAt }) {
         <>
             <div className={styles['conv-activity']}>
                 <div className={styles['conv-icon']}>
-                    <span className={styles['activity-icon']}>
-                        <Icon name="person" />
-                    </span>
+                    <ActivityIcon activityName={activityName} />
                 </div>
                 <div className={styles['conv-description']}>
                     <span>{activityBy} </span>
-                    <span>{`${activityName} ${timeAgo(activityAt)}`}</span>
+                    <span>{`${activityName} this issue ${timeAgo(activityAt)}`}</span>
                 </div>
 
             </div>

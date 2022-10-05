@@ -10,7 +10,6 @@ class IssueModel {
         this.raisedBy = raisedBy;
         this.issueTypeId = issueTypeId;
         this.description = description;
-        console.log(status);
     }
 }
 

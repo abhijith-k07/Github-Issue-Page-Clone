@@ -1,0 +1,18 @@
+.autocomplete {
+    box-sizing: border-box;
+    width: 100%;
+}
+.autocomplete-options {
+    max-height: 250px;
+    overflow:auto
+}
+.option {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+.option:hover {
+    background: purple;
+}

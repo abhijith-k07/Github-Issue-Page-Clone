@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-function Icon({ name }) {
+function Icon({ name, width, height }) {
     const icons = [
-        { name: 'person', url: '/icons/person.png' }
+        { name: 'person', url: '/icons/person.png' },
+        { name: 'done', url: '/icons/tick.png' },
+        { name: 'reopened', url: '/icons/reopen.png' },
+        { name: 'settings', url: '/icons/settings.png' },
+        {name: 'google', url: '/icons/google.png'}
     ]
     const [iconUrl, setIconUrl] = useState('');
 
@@ -16,7 +20,7 @@ function Icon({ name }) {
     }, [])
 
     return (
-        <><img style={{ width: '16px', height: '16px', object: 'cover', filter:'invert()' }} src={iconUrl} alt="icon" /></>
+        <><img style={{ width: width ? width + 'px' : '16px', height: height ? height  + 'px' :  '16px', object: 'cover', filter: 'invert()' }} src={iconUrl} alt="icon" /></>
     )
 
 }

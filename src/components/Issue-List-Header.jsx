@@ -15,7 +15,7 @@ function IssueListHeader({ allIssues }) {
             else stats['closed']++;
             setStatCounts(stats);
         })
-    }, [])
+    }, [allIssues])
 
 
     return (
@@ -30,13 +30,6 @@ function IssueListHeader({ allIssues }) {
                     </div>
                     <div className='text-semi-grey'>{statCounts.closed} Closed </div>
                 </div>
-                {/* <div className={styles['issue-filters']}>
-                    <div>Author</div>
-                    <div>Label</div>
-                    <div>Assignee</div>
-                    <div>Sort</div>
-                </div> */}
-
             </div>
         </>
     )
