@@ -1,8 +1,9 @@
 
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import Input from "./Input";
 import styles from './styles/autocomplete.module.css';
 import cx from 'classnames';
+import Loader from "./Loader";
 
 
 function AutoComplete({ children, placeholder, onSearch, options, onSelect }) {
@@ -26,6 +27,7 @@ function AutoComplete({ children, placeholder, onSearch, options, onSelect }) {
                 <div className={styles['autocomplete-input']}>
                     <Input value={inputVal} placeholder={placeholder} onChange={onQueryEnter} name="autocomplete" />
                 </div>
+                {Children?.length === 0 && <Loader />}
                 <div className={cx('mt-10', styles['autocomplete-options'])}>
                     {children || options?.map((option, index) => {
                         return <div className={styles['option']} key={index} onClick={() => onOptionSelect(option)}>{option}</div>

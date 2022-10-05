@@ -3,20 +3,14 @@ import Menu from './Menu';
 import Autocomplete from './Autocomplete';
 import styles from './styles/label-edit-menu.module.css';
 import cx from 'classnames';
-
+import { putRequest } from '../utilities/functions/Http-client'
 
 const initialState = [
-    {name: "bug", color:"red", description: "A unintented behaviour"},
-    {name: "documentation", color:"blue", description: "Improvments to documentation"},
-    {name: "bug", color:"red", description: "A unintented behaviour"},
-    {name: "documentation", color:"blue", description: "Improvments to documentation"},
-    {name: "bug", color:"red", description: "A unintented behaviour"},
-    {name: "documentation", color:"blue", description: "Improvments to documentation"},
-    {name: "bug", color:"red", description: "A unintented behaviour"},
-    {name: "documentation", color:"yellow", description: "Improvments to documentation"}
+    { name: "bug", color: "red", description: "A unintented behaviour" },
+    { name: "documentation", color: "blue", description: "Improvement to documentation" },
 ]
 
-function LabelEditMenu({labelAdded}) {
+function LabelEditMenu({ labelAdded, issueId }) {
     const [labels, setLabels] = useState([...initialState]);
     const [closeMenu, setCloseMenu] = useState(true);
 
@@ -24,11 +18,17 @@ function LabelEditMenu({labelAdded}) {
         const filteredLabels = initialState.filter(label => label.name.toLowerCase().includes(query.toLowerCase()));
         setLabels(filteredLabels);
     }
-    
+
     const onSelect = (value) => {
-        labelAdded(value);
-        setCloseMenu(!closeMenu);
-        setLabels(initialState);
+        const payload = {
+            issueId,
+            label: value.name
+        };
+        putRequest('issue/labels', payload).then((response) => {
+            labelAdded(value.name);
+            setCloseMenu(!closeMenu);
+            setLabels(initialState);
+        })
     }
 
     return (
@@ -39,7 +39,7 @@ function LabelEditMenu({labelAdded}) {
                         return (
                             <div className={cx(styles['label-row'], 'pointer')} key={index} onClick={() => onSelect(label)}>
                                 <div className={styles['label-title']}>
-                                    <div className={styles['label-color-indicator']} style={{backgroundColor:label.color}}></div>
+                                    <div className={styles['label-color-indicator']} style={{ backgroundColor: label.color }}></div>
                                     <div>{label?.name}</div>
                                 </div>
                                 <div className={styles['label-desc']}>

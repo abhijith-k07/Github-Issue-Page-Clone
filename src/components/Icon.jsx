@@ -5,7 +5,8 @@ function Icon({ name, width, height }) {
         { name: 'person', url: '/icons/person.png' },
         { name: 'done', url: '/icons/tick.png' },
         { name: 'reopened', url: '/icons/reopen.png' },
-        { name: 'settings', url: '/icons/settings.png' }
+        { name: 'settings', url: '/icons/settings.png' },
+        {name: 'google', url: '/icons/google.png'}
     ]
     const [iconUrl, setIconUrl] = useState('');
 

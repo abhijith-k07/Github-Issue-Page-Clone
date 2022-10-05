@@ -8,5 +8,10 @@
     border: 0.5px solid rgb(18, 4, 211);
     margin-right: 10px;
     column-gap: 10px;
-    color: white
+    color: white;
+    display: flex;
+    align-items: center
+}
+.tag span {
+    margin-bottom: 3px;
 }

@@ -7,3 +7,10 @@
     margin-left:auto;
     margin-right:auto;
 }
+.issue-cards {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}

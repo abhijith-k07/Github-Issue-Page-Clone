@@ -26,7 +26,7 @@ function IssueCard({ title, labels, openedBy, openedAt, issueNumer, issueId }) {
                 <div className={styles['issue-details']} onClick={navigateToConversation} >
                     <div className={styles['issue-box']}>
                         <span className={styles['issue-title']}>{title}</span>
-                         {labels.length > 0 && labels.map((tag, index) => {
+                         {labels?.length > 0 && labels.map((tag, index) => {
                             return <Label key={index} name={tag} />
                         })}
                     </div>

@@ -11,15 +11,26 @@ import CommentModel from "../classes/Comment";
 import Comment from './Comment';
 import { getRequest, postRequest } from "../utilities/functions/Http-client";
 import IssueModel from "../classes/IssueModel";
+import Loader from "./Loader";
 
 function IssueConversation() {
     const [timeLine, setTimeLine] = useState([]);
     const [issue, setIssue] = useState(null);
     const [currentComment, setCurrentComment] = useState('');
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const [searchParams] = useSearchParams();
-
     const issueId = searchParams.get('issueId');
+
+    useEffect(() => {
+        getIssue(issueId);
+        Promise.all([getRequest('activity/issueactivity/?issueId=' + issueId), getRequest('comments/issuecomments/?issueId=' + issueId)]).then((response) => {
+            const formattedActicities = response[0].data.map((activity) => new ActivityModel(activity.activityBy, activity.createdAt, activity.activity));
+            const formattedComments = response[1].data.map((comment) => new CommentModel(comment.commentedBy, comment.createdAt, comment.comment));
+            sortCommentsAndActivities(formattedComments, formattedActicities);
+            setIsLoaded(true);
+        });
+    }, []);
 
     const sortCommentsAndActivities = (comments, activities) => {
         comments.sort(comparisonFunc);
@@ -44,18 +55,10 @@ function IssueConversation() {
 
     const getIssue = (issueId) => {
         getRequest('issue/issuedetails/' + issueId).then((response) => {
-            setIssue(new IssueModel({...response.data[0]}));
+            setIssue(new IssueModel({...response.data}));
+            
         });
     }
-
-    useEffect(() => {
-        getIssue(issueId);
-        Promise.all([getRequest('activity/issueactivity/?issueId=' + issueId), getRequest('comments/issuecomments/?issueId=' + issueId)]).then((response) => {
-            const formattedActicities = response[0].data.map((activity) => new ActivityModel(activity.activityBy, activity.createdAt, activity.activity));
-            const formattedComments = response[1].data.map((comment) => new CommentModel(comment.commentedBy, comment.createdAt, comment.comment));
-            sortCommentsAndActivities(formattedComments, formattedActicities);
-        });
-    }, []);
 
 
     const handleComment = (e) => {
@@ -95,12 +98,14 @@ function IssueConversation() {
             const reopenActivity = new ActivityModel('Abhijith', new Date().toISOString(), 'reopened');
             setIssue({ ...issue, status: 'open' });
             setTimeLine([...timeLine, reopenActivity]);
+            window.scrollTo(0, document.body.scrollHeight);
         });
     }
 
     return (    
         <>
-            <div className={styles['main-wrapper']}>
+            {!isLoaded && <div className={styles['loader']}><Loader loaderText="Loading Timeline..." /></div> }
+             {isLoaded && <div className={styles['main-wrapper']}>
                 <div className={styles['conv-wrapper']}>
                     <div className={styles['conv-container']}>
                         <div>
@@ -135,9 +140,9 @@ function IssueConversation() {
                     </div>
                 </div>
                 <div className={styles['panel-wrapper']}>
-                    {issue && <SidePanel labels={issue.labels} />}
+                    {issue && <SidePanel labels={issue.labels} issueId={issueId} />}
                 </div>
-            </div>
+            </div> }
         </>
     )
 }
