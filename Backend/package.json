@@ -1,0 +1,25 @@
+{
+  "name": "issue-page-backend",
+  "version": "1.0.0",
+  "description": "Backend for github issue page clone",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app"
+  },
+  "keywords": [
+    "issue",
+    "page",
+    "clone"
+  ],
+  "author": "Abhijith K",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "pg": "^8.8.0",
+    "sequelize": "^6.21.6",
+    "uuid": "^9.0.0"
+  }
+}
